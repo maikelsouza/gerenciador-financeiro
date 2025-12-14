@@ -5,7 +5,8 @@ type CardType = 'income'| 'outcome' | 'balance';
 
 enum ValeuCssClass {
   income = 'income',
-  outcome = 'outcome'
+  outcome = 'outcome',
+  zero = 'zero'
 }
 
 
@@ -29,6 +30,10 @@ export class BalanceCard {
 
     if (this.type() === 'outcome'){
       return ValeuCssClass.outcome;
+    }
+
+    if (this.value() === 0){
+      return ValeuCssClass.zero;
     }
 
     return this.value() > 0 ? ValeuCssClass.income : ValeuCssClass.outcome;
