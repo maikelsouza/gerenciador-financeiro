@@ -3,7 +3,7 @@
 <ul>
     @for (item of transactions(); track item) {
         <li>
-           <app-transaction-item></app-transaction-item>
+           <app-transaction-item [transaction]="item"></app-transaction-item>
         </li>
     }
 </ul>
