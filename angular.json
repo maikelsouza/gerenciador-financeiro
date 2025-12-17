@@ -33,7 +33,6 @@
         "@schematics/angular:service": {
           "skipTests": true,
           "type": "service"
-
         }
       },
       "root": "",
