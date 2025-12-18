@@ -1,1 +1,15 @@
-<p>create works!</p>
+<form [formGroup]="form">    
+    <mat-form-field>
+        <mat-label>Título</mat-label>
+        <input
+        matInput
+        placeholder="Digite o título da transação"
+        formControlName="title"      
+        required
+        />
+        @if (form.controls.title.invalid) {
+            <mat-error>Campo Obrigatório</mat-error>
+        } 
+    </mat-form-field>
+    {{form.controls.title.value}}
+</form>
