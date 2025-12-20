@@ -16,10 +16,10 @@ import { FeedbackService } from '../../../../shared/feedback/services/feedback.s
   imports: [MatFormFieldModule, MatInputModule, 
             ReactiveFormsModule, MatButtonModule,
             MatButtonToggleModule, NgxMaskDirective],
-  templateUrl: './create.component.html',
-  styleUrl: './create.component.scss',
+  templateUrl: './create-or-edit.component.html',
+  styleUrl: './create-or-edit.component.scss',
 })
-export class CreateComponent {
+export class CreateOrEditComponent {
 
   private readonly transactionsService = inject(TransactionsService);
 

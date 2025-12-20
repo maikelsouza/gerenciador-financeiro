@@ -9,8 +9,12 @@ export class TransactionsService {
 
   private readonly httpClient = inject(HttpClient)
 
-   getAll(){
+  getAll(){
     return this.httpClient.get<Transaction[]>("http://localhost:3000/transactions");
+  }
+
+  getById(id: string){
+    return this.httpClient.get<Transaction>(`http://localhost:3000/transaction/${id}`);
   }
 
   post(payload: TransactionPayload){
