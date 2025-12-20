@@ -9,6 +9,8 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { JsonPipe } from '@angular/common';
 import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
 import { TransactionPayload } from '../../../../shared/transaction/interfaces/transaction';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create',
@@ -20,7 +22,11 @@ import { TransactionPayload } from '../../../../shared/transaction/interfaces/tr
 })
 export class CreateComponent {
 
-  private transactionsService = inject(TransactionsService);
+  private readonly transactionsService = inject(TransactionsService);
+
+  private readonly router = inject(Router);
+
+   private readonly snackBar = inject(MatSnackBar);
 
   readonly transactionType = TransactionType;
 
@@ -50,7 +56,11 @@ export class CreateComponent {
 
     this.transactionsService.post(payload).subscribe({
       next: () => {
-        
+        this.snackBar.open('Transação criada com sucesso!', 'Ok',{
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        })
+        this.router.navigate(['/']);
       }
     });
   }
