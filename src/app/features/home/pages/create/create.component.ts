@@ -6,17 +6,16 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { TransactionType } from '../../../../shared/transaction/interfaces/enums/transaction-type';
 import { NgxMaskDirective } from 'ngx-mask';
-import { JsonPipe } from '@angular/common';
 import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
 import { TransactionPayload } from '../../../../shared/transaction/interfaces/transaction';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
 
 @Component({
   selector: 'app-create',
   imports: [MatFormFieldModule, MatInputModule, 
             ReactiveFormsModule, MatButtonModule,
-            MatButtonToggleModule, NgxMaskDirective, JsonPipe],
+            MatButtonToggleModule, NgxMaskDirective],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss',
 })
@@ -26,7 +25,7 @@ export class CreateComponent {
 
   private readonly router = inject(Router);
 
-   private readonly snackBar = inject(MatSnackBar);
+   private readonly feedbackService = inject(FeedbackService);
 
   readonly transactionType = TransactionType;
 
@@ -56,9 +55,7 @@ export class CreateComponent {
 
     this.transactionsService.post(payload).subscribe({
       next: () => {
-        this.snackBar.open('Transação criada com sucesso!', 'Ok',{          
-          panelClass: 'snack-bar-success-feedback'
-        })
+        this.feedbackService.success('Transação criada com sucesso!');        
         this.router.navigate(['/']);
       }
     });
