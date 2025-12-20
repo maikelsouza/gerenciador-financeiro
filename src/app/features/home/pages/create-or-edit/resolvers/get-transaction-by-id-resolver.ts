@@ -11,3 +11,4 @@ export const getTransactionByIdResolver: ResolveFn<Transaction> = (route, state)
 
   return transactionsService.getById(id)
 };
+

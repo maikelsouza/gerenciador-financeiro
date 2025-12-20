@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,7 +8,7 @@ import { TransactionType } from '../../../../shared/transaction/interfaces/enums
 import { NgxMaskDirective } from 'ngx-mask';
 import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
 import { TransactionPayload } from '../../../../shared/transaction/interfaces/transaction';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
 
 @Component({
@@ -19,16 +19,21 @@ import { FeedbackService } from '../../../../shared/feedback/services/feedback.s
   templateUrl: './create-or-edit.component.html',
   styleUrl: './create-or-edit.component.scss',
 })
-export class CreateOrEditComponent {
+export class CreateOrEditComponent implements OnInit{
+
+  private readonly activatedRoute = inject(ActivatedRoute);
 
   private readonly transactionsService = inject(TransactionsService);
 
   private readonly router = inject(Router);
 
-   private readonly feedbackService = inject(FeedbackService);
+  private readonly feedbackService = inject(FeedbackService);
 
   readonly transactionType = TransactionType;
 
+  ngOnInit(): void {
+    console.log(this.activatedRoute.snapshot.data);
+  }
 
   form = new FormGroup({
     type: new FormControl('',{

@@ -14,7 +14,7 @@ export class TransactionsService {
   }
 
   getById(id: string){
-    return this.httpClient.get<Transaction>(`http://localhost:3000/transaction/${id}`);
+    return this.httpClient.get<Transaction>(`http://localhost:3000/transactions/${id}`);
   }
 
   post(payload: TransactionPayload){
