@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -19,9 +19,7 @@ import { FeedbackService } from '../../../../shared/feedback/services/feedback.s
   templateUrl: './create-or-edit.component.html',
   styleUrl: './create-or-edit.component.scss',
 })
-export class CreateOrEditComponent{
-
-  private readonly activatedRoute = inject(ActivatedRoute);
+export class CreateOrEditComponent{  
 
   private readonly transactionsService = inject(TransactionsService);
 
@@ -29,42 +27,43 @@ export class CreateOrEditComponent{
 
   private readonly feedbackService = inject(FeedbackService);
 
+  transaction = input<Transaction>();
+
   readonly transactionType = TransactionType;
+ 
 
-  get transaction(): Transaction{
-    return this.activatedRoute.snapshot.data['transaction'];
-  }
+   isEdit = computed(() => Boolean(this.transaction()));    
+  
 
-  get isEdit(){
-    return Boolean(this.transaction);
-  }
-
-  form = new FormGroup({
-    type: new FormControl(this.transaction?.type ?? '',{
-      validators: [Validators.required] 
-    }),
-    title: new FormControl(this.transaction?.title ?? '',{
-      validators: [Validators.required] 
-    }),
-    value: new FormControl(this.transaction?.value ?? 0,{
-      validators: [Validators.required] 
-    }),
-  })
+  form = computed(
+    () => 
+      new FormGroup({
+        type: new FormControl(this.transaction()?.type ?? '',{
+          validators: [Validators.required] 
+        }),
+        title: new FormControl(this.transaction()?.title ?? '',{
+          validators: [Validators.required] 
+        }),
+        value: new FormControl(this.transaction()?.value ?? 0,{
+          validators: [Validators.required] 
+        }),
+      })
+  )
 
   submit(){
-    if (this.form.invalid){
+    if (this.form().invalid){
       return; 
     }
 
     const payload: TransactionPayload = {      
-      title: this.form.value.title as string,
-      type: this.form.value.type as TransactionType,
-      value: this.form.value.value as number
+      title: this.form().value.title as string,
+      type: this.form().value.type as TransactionType,
+      value: this.form().value.value as number
     };
 
-    if (this.isEdit){
+    if (this.isEdit()){
 
-      this.transactionsService.put(this.transaction.id, payload).subscribe({
+      this.transactionsService.put(this.transaction()!.id, payload).subscribe({
         next: () => {
           this.feedbackService.success('Transação alterada com sucesso!');        
           this.router.navigate(['/']);
