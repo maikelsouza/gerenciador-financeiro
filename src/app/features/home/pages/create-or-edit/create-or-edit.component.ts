@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -7,7 +7,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { TransactionType } from '../../../../shared/transaction/interfaces/enums/transaction-type';
 import { NgxMaskDirective } from 'ngx-mask';
 import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
-import { TransactionPayload } from '../../../../shared/transaction/interfaces/transaction';
+import { Transaction, TransactionPayload } from '../../../../shared/transaction/interfaces/transaction';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
 
@@ -19,7 +19,7 @@ import { FeedbackService } from '../../../../shared/feedback/services/feedback.s
   templateUrl: './create-or-edit.component.html',
   styleUrl: './create-or-edit.component.scss',
 })
-export class CreateOrEditComponent implements OnInit{
+export class CreateOrEditComponent{
 
   private readonly activatedRoute = inject(ActivatedRoute);
 
@@ -31,18 +31,22 @@ export class CreateOrEditComponent implements OnInit{
 
   readonly transactionType = TransactionType;
 
-  ngOnInit(): void {
-    console.log(this.activatedRoute.snapshot.data);
+  get transaction(): Transaction{
+    return this.activatedRoute.snapshot.data['transaction'];
+  }
+
+  get isEdit(){
+    return Boolean(this.transaction);
   }
 
   form = new FormGroup({
-    type: new FormControl('',{
+    type: new FormControl(this.transaction?.type ?? '',{
       validators: [Validators.required] 
     }),
-    title: new FormControl('',{
+    title: new FormControl(this.transaction?.title ?? '',{
       validators: [Validators.required] 
     }),
-    value: new FormControl(0,{
+    value: new FormControl(this.transaction?.value ?? 0,{
       validators: [Validators.required] 
     }),
   })
@@ -58,12 +62,25 @@ export class CreateOrEditComponent implements OnInit{
       value: this.form.value.value as number
     };
 
-    this.transactionsService.post(payload).subscribe({
-      next: () => {
-        this.feedbackService.success('Transação criada com sucesso!');        
-        this.router.navigate(['/']);
-      }
-    });
+    if (this.isEdit){
+
+      this.transactionsService.put(this.transaction.id, payload).subscribe({
+        next: () => {
+          this.feedbackService.success('Transação alterada com sucesso!');        
+          this.router.navigate(['/']);
+        }
+      });
+
+    } else{
+      
+      this.transactionsService.post(payload).subscribe({
+        next: () => {
+          this.feedbackService.success('Transação criada com sucesso!');        
+          this.router.navigate(['/']);
+        }
+      });
+    }
+
   }
 
 
