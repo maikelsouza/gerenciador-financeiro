@@ -16,6 +16,8 @@ export class TransactionItem {
 
   edit = output<Transaction>();
 
+  remove = output<Transaction>();
+
 
 
 }
