@@ -6,6 +6,7 @@ import { NoTransactions } from './components/no-transactions/no-transactions';
 import { TransactionsService } from '../../shared/transaction/services/transactions.service';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
+import { FeedbackService } from '../../shared/feedback/services/feedback.service';
 
 
 @Component({
@@ -17,6 +18,8 @@ import { Router, RouterLink } from '@angular/router';
 export class Home implements OnInit{
 
  private readonly transactionsService = inject(TransactionsService);
+
+ private readonly feedbackService = inject(FeedbackService);
 
  private readonly router = inject(Router);
 
@@ -30,12 +33,19 @@ export class Home implements OnInit{
     this.router.navigate(['edit', transaction.id])
   }
 
-  remove(transaction: Transaction) {    
-    this.transactions.update( (transactions) => 
-      transactions.filter(item => item.id !== transaction.id)
-    );
+  remove(transaction: Transaction) { 
+    this.transactionsService.delete(transaction.id).subscribe({
+      next: () =>{
+        this.removeTransactionFromArray(transaction);
+        this.feedbackService.success('Transação Removida com Sucesso'); 
+      }
+    }) 
+    
   }
 
+  private removeTransactionFromArray(transaction: Transaction) {
+    this.transactions.update((transactions) => transactions.filter(item => item.id !== transaction.id));
+  }
 
   private getTransactions() {
     this.transactionsService.getAll().subscribe({
