@@ -7,6 +7,7 @@ import { TransactionsService } from '../../shared/transaction/services/transacti
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import { FeedbackService } from '../../shared/feedback/services/feedback.service';
+import { ConfirmationDialogService } from '../../shared/dialog/confirmation/service/confirmation-dialog.service';
 
 
 @Component({
@@ -15,43 +16,54 @@ import { FeedbackService } from '../../shared/feedback/services/feedback.service
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class Home implements OnInit{
+export class Home implements OnInit {
+  private readonly transactionsService = inject(TransactionsService);
 
- private readonly transactionsService = inject(TransactionsService);
+  private readonly feedbackService = inject(FeedbackService);
 
- private readonly feedbackService = inject(FeedbackService);
+  private readonly confirmationDialogService = inject(ConfirmationDialogService);
 
- private readonly router = inject(Router);
+  private readonly router = inject(Router);
 
- transactions = signal<Transaction[]>([]);
+  transactions = signal<Transaction[]>([]);
 
   ngOnInit(): void {
     this.getTransactions();
   }
 
   edit(transaction: Transaction) {
-    this.router.navigate(['edit', transaction.id])
+    this.router.navigate(['edit', transaction.id]);
   }
 
-  remove(transaction: Transaction) { 
-    this.transactionsService.delete(transaction.id).subscribe({
-      next: () =>{
-        this.removeTransactionFromArray(transaction);
-        this.feedbackService.success('Transação Removida com Sucesso'); 
-      }
-    }) 
-    
+  remove(transaction: Transaction) {
+    this.confirmationDialogService.open({
+      title: 'Deletar Transação',
+      message: 'Você realmente que deletar a transação?',
+      noBtnText: 'Não',
+      yesBtnText: 'Sim',
+    }).subscribe({
+      next: () => {
+        this.transactionsService.delete(transaction.id).subscribe({
+          next: () => {
+            this.removeTransactionFromArray(transaction);
+            this.feedbackService.success('Transação Removida com Sucesso');
+          },
+        });
+      },
+    });
   }
 
   private removeTransactionFromArray(transaction: Transaction) {
-    this.transactions.update((transactions) => transactions.filter(item => item.id !== transaction.id));
+    this.transactions.update((transactions) =>
+      transactions.filter((item) => item.id !== transaction.id)
+    );
   }
 
   private getTransactions() {
     this.transactionsService.getAll().subscribe({
       next: (transactions) => {
         this.transactions.set(transactions);
-      }
+      },
     });
   }
 }
