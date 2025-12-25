@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, input, linkedSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink, Router } from '@angular/router';
 import { ConfirmationDialogService } from '../../../../shared/dialog/confirmation/service/confirmation-dialog.service';
@@ -19,9 +19,9 @@ import { TransactionsContainerComponent } from './components/transactions-contai
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
-export class ListComponent implements OnInit{
+export class ListComponent{
 
-    private readonly transactionsService = inject(TransactionsService);
+  private readonly transactionsService = inject(TransactionsService);
 
   private readonly feedbackService = inject(FeedbackService);
 
@@ -29,11 +29,10 @@ export class ListComponent implements OnInit{
 
   private readonly router = inject(Router);
 
-  transactions = signal<Transaction[]>([]);
+  transactions = input.required<Transaction[]>()
 
-  ngOnInit(): void {
-    this.getTransactions();
-  }
+  items = linkedSignal(() => this.transactions());
+  
 
   edit(transaction: Transaction) {
     this.router.navigate(['edit', transaction.id]);
@@ -58,17 +57,11 @@ export class ListComponent implements OnInit{
   }
 
   private removeTransactionFromArray(transaction: Transaction) {
-    this.transactions.update((transactions) =>
+    this.items.update((transactions) =>
       transactions.filter((item) => item.id !== transaction.id)
     );
   }
 
-  private getTransactions() {
-    this.transactionsService.getAll().subscribe({
-      next: (transactions) => {
-        this.transactions.set(transactions);
-      },
-    });
-  }
+  
 
 }
