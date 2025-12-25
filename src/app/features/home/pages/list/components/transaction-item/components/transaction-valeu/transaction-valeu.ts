@@ -1,6 +1,7 @@
 import { Component, computed, input } from '@angular/core';
-import { TransactionType } from '../../../../../../shared/transaction/interfaces/enums/transaction-type';
-import { Transaction } from '../../../../../../shared/transaction/interfaces/transaction';
+import { TransactionType } from '../../../../../../../../shared/transaction/interfaces/enums/transaction-type';
+import { Transaction } from '../../../../../../../../shared/transaction/interfaces/transaction';
+
 
 const CssClass = {
   [TransactionType.INCOME] : 'income',

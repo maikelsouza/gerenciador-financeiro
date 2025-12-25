@@ -1,8 +1,8 @@
-import { Component, input, output, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Transaction } from '../../../../shared/transaction/interfaces/transaction';
 import { TransactionValeu } from './components/transaction-valeu/transaction-valeu';
+import { Transaction } from '../../../../../../shared/transaction/interfaces/transaction';
 
 @Component({
   selector: 'app-transaction-item',

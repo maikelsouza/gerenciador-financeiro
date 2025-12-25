@@ -1,26 +1,27 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Balance } from "./components/balance/balance";
-import { Transaction } from '../../shared/transaction/interfaces/transaction';
-import { TransactionsService } from '../../shared/transaction/services/transactions.service';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink } from '@angular/router';
-import { FeedbackService } from '../../shared/feedback/services/feedback.service';
-import { ConfirmationDialogService } from '../../shared/dialog/confirmation/service/confirmation-dialog.service';
+import { RouterLink, Router } from '@angular/router';
+import { ConfirmationDialogService } from '../../../../shared/dialog/confirmation/service/confirmation-dialog.service';
+import { FeedbackService } from '../../../../shared/feedback/services/feedback.service';
+import { Transaction } from '../../../../shared/transaction/interfaces/transaction';
+import { TransactionsService } from '../../../../shared/transaction/services/transactions.service';
+import { Balance } from './components/balance/balance';
+import { NoTransactions } from './components/no-transactions/no-transactions';
+import { TransactionItem } from './components/transaction-item/transaction-item';
 import { TransactionsContainerComponent } from './components/transactions-container/transactions-container.component';
-import { TransactionItem } from "./components/transaction-item/transaction-item";
-import { NoTransactions } from "./components/no-transactions/no-transactions";
 
 
 @Component({
-  selector: 'app-home',
-  imports: [Balance,
+  selector: 'app-list',
+   imports: [Balance,
     MatButtonModule,
     RouterLink, TransactionsContainerComponent, TransactionItem, NoTransactions],
-  templateUrl: './home.html',
-  styleUrl: './home.scss',
+  templateUrl: './list.component.html',
+  styleUrl: './list.component.scss',
 })
-export class Home implements OnInit {
-  private readonly transactionsService = inject(TransactionsService);
+export class ListComponent implements OnInit{
+
+    private readonly transactionsService = inject(TransactionsService);
 
   private readonly feedbackService = inject(FeedbackService);
 
@@ -69,4 +70,5 @@ export class Home implements OnInit {
       },
     });
   }
+
 }
