@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from "@angular/material/input";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { MatInputModule } from "@angular/material/input";
 })
 export class LoginComponent {
 
+  authService = inject(AuthService);
 
   form  = new FormGroup({
     user: new FormControl('', {
@@ -22,6 +24,20 @@ export class LoginComponent {
   }) 
 
   submit() {
-    throw new Error('Method not implemented.');
+    if (this.form.invalid){
+      return
+    }
+    const payload = {
+      user: this.form.controls.user.value as string,
+      password: this.form.controls.password.value as string 
+    }
+    this.authService.login(payload).subscribe({
+      next: (resp) => {
+        console.log(resp);
+      },
+      error: (error) => {
+        console.error('Login failed:', error);
+      }
+    });
   }
 }
