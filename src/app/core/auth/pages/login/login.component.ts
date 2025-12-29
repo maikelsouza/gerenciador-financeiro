@@ -43,7 +43,9 @@ export class LoginComponent {
     this.authService.login(payload).subscribe({
       next: (resp) => {
         this.authTokenStorageService.set(resp.token);
-        this.router.navigate(['']);  
+        this.authService.getCurrentUser(resp.token).subscribe(() => {
+           this.router.navigate(['']);              
+        })
       },
       error: (response: HttpErrorResponse) => {
         if(response.status === HttpStatusCode.Unauthorized){
