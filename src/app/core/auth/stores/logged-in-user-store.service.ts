@@ -12,7 +12,7 @@ export class LoggedInUserStoreService {
 
   isLoggedIn = computed(() => this.stage() !== null);
 
-  set user(user: User) {
+  setUser(user: User) {
     this.stage.set(user);
   } 
 
