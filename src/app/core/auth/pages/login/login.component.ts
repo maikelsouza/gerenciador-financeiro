@@ -8,6 +8,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { UserCredentials } from '../../interfaces/user-credentials';
 import { AuthTokenStorageService } from '../../services/auth-token-storage.service';
 import { LoggedInUserStoreService } from '../../stores/logged-in-user-store.service';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -43,13 +44,15 @@ export class LoginComponent {
       user: this.form.controls.user.value as string,
       password: this.form.controls.password.value as string 
     }
-    this.authService.login(payload).subscribe({
-      next: (resp) => {
-        this.authTokenStorageService.set(resp.token);
-        this.authService.getCurrentUser(resp.token).subscribe((user) => {
-          this.loggedInUserStoreService.setUser(user);
+    this.authService.login(payload)
+      .pipe(
+        tap((res) => this.authTokenStorageService.set(res.token)),
+        switchMap((res) => this.authService.getCurrentUser(res.token)),
+        tap((user) => this.loggedInUserStoreService.setUser(user))
+      )
+      .subscribe({
+        next: (res) => {       
           this.router.navigate(['']);              
-        })
       },
       error: (response: HttpErrorResponse) => {
         if(response.status === HttpStatusCode.Unauthorized){
