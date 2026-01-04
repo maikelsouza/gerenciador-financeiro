@@ -14,5 +14,15 @@ export class AuthTokenStorageService {
   set(token: string): void {
     this.localStorageToken.setItem(this.key, token);
   }  
+
+  has(): boolean{
+    return Boolean(this.get());
+  }
+
+  get(): string | null{
+    return this.localStorageToken.getItem(this.key);
+  }
+
+
   
 }
