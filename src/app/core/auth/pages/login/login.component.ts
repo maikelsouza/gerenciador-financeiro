@@ -2,13 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from "@angular/material/input";
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { UserCredentials } from '../../interfaces/user-credentials';
-import { AuthTokenStorageService } from '../../services/auth-token-storage.service';
-import { LoggedInUserStoreService } from '../../stores/logged-in-user-store.service';
-import { switchMap, tap } from 'rxjs';
+import { LoginFacadeService } from '../../facades/login-facade.service';
 
 @Component({
   selector: 'app-login',
@@ -18,14 +15,9 @@ import { switchMap, tap } from 'rxjs';
 })
 export class LoginComponent {
 
-  authService = inject(AuthService);
-
   router = inject(Router);
-
-  authTokenStorageService = inject(AuthTokenStorageService);
-
-  loggedInUserStoreService = inject(LoggedInUserStoreService);  
-
+  
+  loginFacadeService = inject(LoginFacadeService);  
 
   form  = new FormGroup({
     user: new FormControl('', {
@@ -44,12 +36,7 @@ export class LoginComponent {
       user: this.form.controls.user.value as string,
       password: this.form.controls.password.value as string 
     }
-    this.authService.login(payload)
-      .pipe(
-        tap((res) => this.authTokenStorageService.set(res.token)),
-        switchMap((res) => this.authService.getCurrentUser(res.token)),
-        tap((user) => this.loggedInUserStoreService.setUser(user))
-      )
+    this.loginFacadeService.login(payload)      
       .subscribe({
         next: (res) => {       
           this.router.navigate(['']);              
