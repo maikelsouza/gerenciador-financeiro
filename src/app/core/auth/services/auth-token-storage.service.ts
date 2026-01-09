@@ -23,6 +23,10 @@ export class AuthTokenStorageService {
     return this.localStorageToken.getItem(this.key);
   }
 
+  remove(): void{
+    this.localStorageToken.removeItem(this.key);
+  }
+
 
   
 }
