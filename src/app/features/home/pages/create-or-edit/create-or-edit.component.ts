@@ -12,6 +12,7 @@ import { TransactionType } from '@shared/transaction/interfaces/enums/transactio
 import { Transaction, TransactionPayload } from '@shared/transaction/interfaces/transaction';
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
 import { FullWidthDirective } from '@shared/material/form-field/directives/full-width.directive';
+import { MarginBottomDirective } from '@shared/material/form-field/directives/margin-bottom.directive';
 
 @Component({
   selector: 'app-create',
@@ -22,7 +23,8 @@ import { FullWidthDirective } from '@shared/material/form-field/directives/full-
     MatButtonModule,
     MatButtonToggleModule,
     NgxMaskDirective,
-    FullWidthDirective
+    FullWidthDirective,
+    MarginBottomDirective
   ],
   templateUrl: './create-or-edit.component.html',
   styleUrl: './create-or-edit.component.scss',
