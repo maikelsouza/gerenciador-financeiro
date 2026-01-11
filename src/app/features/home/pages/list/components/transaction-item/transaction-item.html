@@ -1,9 +1,9 @@
 <mat-card class="card">
     <div>
 
-        <ng-container *isIncome="transaction().type; else elseTemplate">
+        <ng-template [isIncome]="transaction().type": [isIncomeElse]="elseTemplate">
             É ganho
-        </ng-container>
+        </ng-template>    
 
         <ng-template #elseTemplate>
             É gasto
