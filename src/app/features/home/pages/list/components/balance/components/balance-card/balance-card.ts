@@ -1,3 +1,4 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
@@ -12,7 +13,7 @@ enum ValeuCssClass {
 
 @Component({
   selector: 'app-balance-card',
-  imports: [MatCardModule],
+  imports: [MatCardModule, CurrencyPipe],
   templateUrl: './balance-card.html',
   styleUrl: './balance-card.scss',
 })

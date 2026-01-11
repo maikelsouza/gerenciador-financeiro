@@ -2,10 +2,6 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideEnvironmentNgxMask } from 'ngx-mask';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { setAuthTokenInterceptor } from './core/auth/interceptors/set-auth-token-interceptor';
 import { provideCore } from './core/provide-core';
 
 export const appConfig: ApplicationConfig = {
