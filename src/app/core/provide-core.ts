@@ -6,7 +6,6 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/mater
 import { setAuthTokenInterceptor } from "./auth/interceptors/set-auth-token-interceptor";
 import { registerLocaleData } from "@angular/common";
 import ptBr from '@angular/common/locales/pt';
-import { U } from "@angular/cdk/keycodes";
 
 registerLocaleData(ptBr);
 export function provideCore(){
