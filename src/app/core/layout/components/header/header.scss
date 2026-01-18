@@ -2,19 +2,17 @@
 
 
 .toolbar {
-    display: flex;
-    justify-content: center;
+    display: flex;    
 
     .toolbar-content {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
-        max-width: vars.$content-width;
-
-        .toolbar-logout {
-            margin-left: auto;
-        }
+        width: 100%;        
     } 
+
+.menu-icon {
+    color: var(--mat-sys-on-primary);
+  }
     
 }

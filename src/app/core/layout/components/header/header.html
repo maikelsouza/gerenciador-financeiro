@@ -1,6 +1,11 @@
 
 <header>
     <mat-toolbar class="toolbar">
+       @if (isMobile()) {
+           <button matIconButton (click)="toggleSidenavVisibility()" class="menu-icon">
+             <mat-icon>menu</mat-icon>
+          </button>
+       } 
         <div class="toolbar-content">
             <span>Gerenciador Financeiro</span>          
         </div>
