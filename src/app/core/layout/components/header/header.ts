@@ -1,26 +1,15 @@
-import { Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MobileLayoutService } from '@core/layout/services/mobile-layout.service';
-import { SidnavVisibilityStore } from '@core/layout/stores/sidnav-visibility.store';
+import { ToggleSidnavVisibilityComponent } from './toggle-sidnav-visibility/toggle-sidnav-visibility.component';
 
 @Component({
   selector: 'app-header',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule],
+  imports: [MatToolbarModule, ToggleSidnavVisibilityComponent],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header {
 
-  private readonly sidenavVisibilityStore = inject(SidnavVisibilityStore);
-
-  private readonly mobileLayoutService = inject(MobileLayoutService);
-
-  toggleSidenavVisibility() {
-    this.sidenavVisibilityStore.toggle(); 
-  }
-
-  isMobile = this.mobileLayoutService.isMobile();    
+   
 
 }

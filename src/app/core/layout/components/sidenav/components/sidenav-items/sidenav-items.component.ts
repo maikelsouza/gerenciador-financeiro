@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { LogoutDirective } from './directives/logout.directive';
 import { LoggedInUserStoreService } from '@core/auth/stores/logged-in-user-store.service';
+import { SidenavVisibilityStore } from '@core/layout/stores/sidenav-visibility.store';
 
 @Component({
   selector: 'app-sidenav-items',
@@ -15,6 +16,9 @@ export class SidenavItemsComponent {
 
  private readonly loggedInUserStoreService = inject(LoggedInUserStoreService);
 
+   private readonly sidenavVisibilityStore = inject(SidenavVisibilityStore);
+                                                    
+
  isLoggedIn = computed(() => this.loggedInUserStoreService.isLoggedIn());
 
   links = signal([
@@ -24,7 +28,9 @@ export class SidenavItemsComponent {
     }    
   ]);
 
- 
+  closeSidenav() {
+    this.sidenavVisibilityStore.close();
+  }
 
 
 }

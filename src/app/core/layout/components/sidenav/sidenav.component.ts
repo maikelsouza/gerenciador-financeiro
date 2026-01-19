@@ -2,7 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SidenavItemsComponent } from './components/sidenav-items/sidenav-items.component';
 import { MobileLayoutService } from '@core/layout/services/mobile-layout.service';
-import { SidnavVisibilityStore } from '@core/layout/stores/sidnav-visibility.store';
+import { SidenavVisibilityStore } from '@core/layout/stores/sidenav-visibility.store';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class SidenavComponent {
 
   private readonly mobileLayoutService = inject(MobileLayoutService);
 
-  private readonly sidnavVisibilityStore = inject(SidnavVisibilityStore);
+  private readonly sidnavVisibilityStore = inject(SidenavVisibilityStore);
 
   isMobile = this.mobileLayoutService.isMobile();
 
