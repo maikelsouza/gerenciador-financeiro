@@ -1,7 +1,0 @@
-@for (item of transactions(); track item.id) {      
-    <ng-conteiner [ngTemplateOutlet]="itemTemplate()" [ngTemplateOutletContext]="{ item : item  }"></ng-conteiner>      
-} @empty{
-    <ng-conteiner [ngTemplateOutlet]="noItemsTemplate()"></ng-conteiner>
-    
-}
-
