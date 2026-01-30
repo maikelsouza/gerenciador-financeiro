@@ -25,7 +25,11 @@ export class SidenavItemsComponent {
     {
       label: 'Home',
       url: '/'
-    }    
+    },    
+    {
+      label: 'Transações',
+      url: '/transactions'
+    }
   ]);
 
   closeSidenav() {
