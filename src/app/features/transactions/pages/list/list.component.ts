@@ -8,11 +8,13 @@ import { NoTransactions } from './components/no-transactions/no-transactions';
 import { TransactionItem } from './components/transaction-item/transaction-item';
 import { TransactionsContainerComponent } from './components/transactions-container/transactions-container.component';
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
+import { SearchComponent } from "./components/search/search.component";
 
 
 @Component({
   selector: 'app-list',
-   imports: [MatButtonModule, RouterLink, TransactionsContainerComponent, TransactionItem, NoTransactions],
+   imports: [MatButtonModule, RouterLink, TransactionsContainerComponent, 
+    TransactionItem, NoTransactions, SearchComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
