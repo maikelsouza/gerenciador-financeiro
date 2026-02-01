@@ -10,6 +10,7 @@ import { TransactionsContainerComponent } from './components/transactions-contai
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
 import { SearchComponent } from "./components/search/search.component";
 import { rxResource } from '@angular/core/rxjs-interop';
+import { HttpParams, httpResource, HttpResourceRequest } from '@angular/common/http';
 
 
 @Component({
@@ -35,19 +36,22 @@ export class ListComponent{
 
   // items = linkedSignal(() => this.transactions());
 
-  serchTerm = signal('');  
+  searchTerm = signal('');  
 
-  resourceRef = rxResource({
-    params: () => {
-      return {       
-        serchTerm: this.serchTerm()
-      }
-    },
-    stream: ({params: {serchTerm} }) => {
-        return this.transactionsService.getAll(serchTerm);
-    },
-    defaultValue: []
-  });
+  resourceRef = httpResource<Transaction[]>(() => {
+      let httpParams = new HttpParams();
+
+    if(this.searchTerm()){
+      httpParams = httpParams.append('q', this.searchTerm());
+    } 
+    
+    return{
+      url: '/api/transactions',
+      params: httpParams,
+    } as HttpResourceRequest
+  }, {
+     defaultValue: [],
+    });
 
   edit(transaction: Transaction) {
     this.router.navigate(['edit', transaction.id], { relativeTo: this.activatedRoute });
