@@ -1,4 +1,4 @@
-import { Component, inject, input, linkedSignal, signal } from '@angular/core';
+import { Component, inject, input, linkedSignal, resource, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/dialog/confirmation/service/confirmation-dialog.service';
@@ -9,6 +9,7 @@ import { TransactionItem } from './components/transaction-item/transaction-item'
 import { TransactionsContainerComponent } from './components/transactions-container/transactions-container.component';
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
 import { SearchComponent } from "./components/search/search.component";
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -30,12 +31,23 @@ export class ListComponent{
 
   private readonly router = inject(Router);
 
-  transactions = input.required<Transaction[]>()
+  // transactions = input.required<Transaction[]>()
 
-  items = linkedSignal(() => this.transactions());
+  // items = linkedSignal(() => this.transactions());
 
   serchTerm = signal('');  
-  
+
+  resourceRef = resource({
+    params: () => {
+      return {       
+        serchTerm: this.serchTerm()
+      }
+    },
+    loader: ({params: {serchTerm} }) => {
+        return firstValueFrom(this.transactionsService.getAll(serchTerm));
+    },
+    defaultValue: []
+  });
 
   edit(transaction: Transaction) {
     this.router.navigate(['edit', transaction.id], { relativeTo: this.activatedRoute });
@@ -60,7 +72,7 @@ export class ListComponent{
   }
 
   private removeTransactionFromArray(transaction: Transaction) {
-    this.items.update((transactions) =>
+    this.resourceRef.update((transactions) =>
       transactions.filter((item) => item.id !== transaction.id)
     );
   }
