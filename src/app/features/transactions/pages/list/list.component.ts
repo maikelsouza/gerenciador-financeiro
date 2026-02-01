@@ -10,6 +10,7 @@ import { TransactionsContainerComponent } from './components/transactions-contai
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
 import { SearchComponent } from "./components/search/search.component";
 import { firstValueFrom } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -37,14 +38,14 @@ export class ListComponent{
 
   serchTerm = signal('');  
 
-  resourceRef = resource({
+  resourceRef = rxResource({
     params: () => {
       return {       
         serchTerm: this.serchTerm()
       }
     },
-    loader: ({params: {serchTerm} }) => {
-        return firstValueFrom(this.transactionsService.getAll(serchTerm));
+    stream: ({params: {serchTerm} }) => {
+        return this.transactionsService.getAll(serchTerm);
     },
     defaultValue: []
   });
