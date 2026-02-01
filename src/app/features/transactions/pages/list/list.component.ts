@@ -9,7 +9,6 @@ import { TransactionItem } from './components/transaction-item/transaction-item'
 import { TransactionsContainerComponent } from './components/transactions-container/transactions-container.component';
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
 import { SearchComponent } from "./components/search/search.component";
-import { firstValueFrom } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 
