@@ -1,4 +1,4 @@
-import { Component, inject, input, linkedSignal, resource, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/dialog/confirmation/service/confirmation-dialog.service';
@@ -9,8 +9,6 @@ import { TransactionItem } from './components/transaction-item/transaction-item'
 import { TransactionsContainerComponent } from './components/transactions-container/transactions-container.component';
 import { TransactionsService } from '@shared/transaction/services/transactions.service';
 import { SearchComponent } from "./components/search/search.component";
-import { rxResource } from '@angular/core/rxjs-interop';
-import { HttpParams, httpResource, HttpResourceRequest } from '@angular/common/http';
 
 
 @Component({
@@ -32,26 +30,9 @@ export class ListComponent{
 
   private readonly router = inject(Router);
 
-  // transactions = input.required<Transaction[]>()
-
-  // items = linkedSignal(() => this.transactions());
-
   searchTerm = signal('');  
 
-  resourceRef = httpResource<Transaction[]>(() => {
-      let httpParams = new HttpParams();
-
-    if(this.searchTerm()){
-      httpParams = httpParams.append('q', this.searchTerm());
-    } 
-    
-    return{
-      url: '/api/transactions',
-      params: httpParams,
-    } as HttpResourceRequest
-  }, {
-     defaultValue: [],
-    });
+  resourceRef = this.transactionsService.getAllWithHttpResource(this.searchTerm);
 
   edit(transaction: Transaction) {
     this.router.navigate(['edit', transaction.id], { relativeTo: this.activatedRoute });
