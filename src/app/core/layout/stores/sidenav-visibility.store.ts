@@ -5,7 +5,7 @@ import { computed, Injectable, signal } from '@angular/core';
 })
 export class SidenavVisibilityStore {
 
-  private state = signal(false);
+  private readonly state = signal(false);
 
   isVisible = computed(() => this.state());
 
