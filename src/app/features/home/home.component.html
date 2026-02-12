@@ -1,3 +1,25 @@
 <app-balance [transactions]="transactions()"></app-balance>
 
-<app-pie-chart [config]="chartConfig()"></app-pie-chart>
+<div class="chart-container">
+    @defer(when canLoudComponent(); on interaction(interactionClick)){
+        <mat-card class="card">
+            <app-pie-chart [config]="chartConfig()"></app-pie-chart>
+        </mat-card>        
+    }@loading(minimum 2s) {
+        <mat-card class="card">            
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </mat-card>        
+    }
+    @placeholder(minimum 1s) {    
+        <mat-card class="card">        
+            <button matButton="filled" >Clique Inválido</button>        
+            <button matButton="filled" #interactionClick>Clique Usando Interaction</button>        
+            <button matButton="filled" (click)="canLoudComponent.set(true)">Clique Usando When</button>                    
+        </mat-card>
+    }@error {
+        <mat-card class="card"> 
+            <mat-icon>error</mat-icon>    
+            O Componente não pode ser carregado. Tente novamente mais tarde.
+        </mat-card>        
+    }
+</div>
