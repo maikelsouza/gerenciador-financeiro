@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ToggleSidnavVisibilityComponent } from './toggle-sidnav-visibility/toggle-sidnav-visibility.component';
 
@@ -7,6 +7,7 @@ import { ToggleSidnavVisibilityComponent } from './toggle-sidnav-visibility/togg
   imports: [MatToolbarModule, ToggleSidnavVisibilityComponent],
   templateUrl: './header.html',
   styleUrl: './header.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Header {
 

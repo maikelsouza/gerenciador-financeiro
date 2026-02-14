@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { Transaction } from '@shared/transaction/interfaces/transaction';
 import { Balance } from './components/balance/balance';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
@@ -12,10 +12,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
-   imports: [Balance, PieChartComponent, MatCardModule, 
-    MatButtonModule, MatProgressBarModule, MatIconModule],
+  imports: [Balance, PieChartComponent, MatCardModule, 
+  MatButtonModule, MatProgressBarModule, MatIconModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent{
 

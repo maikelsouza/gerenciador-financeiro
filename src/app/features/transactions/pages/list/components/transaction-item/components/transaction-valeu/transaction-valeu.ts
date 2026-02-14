@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { TransactionType } from '@shared/transaction/interfaces/enums/transaction-type';
 import { Transaction } from '@shared/transaction/interfaces/transaction';
 import { CurrencyPipe } from '@angular/common';
@@ -16,7 +16,8 @@ const CssClass = {
   styleUrl: './transaction-valeu.scss',
   host: {
     '[class]': 'cssClass()'
-  }
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class TransactionValeu {

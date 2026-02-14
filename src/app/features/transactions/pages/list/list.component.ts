@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Signal, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogService } from '@shared/dialog/confirmation/service/confirmation-dialog.service';
@@ -21,10 +21,11 @@ function typeDelay(signal: Signal<string>) {
 
 @Component({
   selector: 'app-list',
-   imports: [MatButtonModule, RouterLink, TransactionsContainerComponent, 
-    TransactionItem, NoTransactions, SearchComponent, MatProgressBarModule],
+  imports: [MatButtonModule, RouterLink, TransactionsContainerComponent, 
+  TransactionItem, NoTransactions, SearchComponent, MatProgressBarModule],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent{
 
