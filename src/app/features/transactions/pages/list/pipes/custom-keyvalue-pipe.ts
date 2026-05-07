@@ -1,4 +1,3 @@
-import { F } from '@angular/cdk/keycodes';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
